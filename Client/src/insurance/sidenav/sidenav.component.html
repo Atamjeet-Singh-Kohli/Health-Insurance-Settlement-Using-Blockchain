@@ -1,0 +1,29 @@
+<div class="side-nav-container">
+  <div class="side-nav" [ngClass]="collapsed ? 'side-nav-collapsed' : ''">
+    <div class="logo-container m-auto">
+      <div class="icon">
+        <i class="fas fa-university"></i>
+        <span *ngIf="!collapsed">&nbsp;EHR 2.1</span>
+      </div>
+    </div>
+    <div class="nav-list-container">
+      <ul class="nav-list">
+        <li class="list-item my-1 mx-2" [ngClass]="path == 'home' ? 'active' : ''">
+          <a [routerLink]="['home']">
+            <i class="fas fa-house-damage"></i>
+            <label for="das">Dashboard</label>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="header" [ngClass]="collapsed ? 'header-collapsed' : ''">
+    <nav class="navbar">
+      <button class="menu" (click)="collapsed = !collapsed">
+        <i [ngClass]="collapsed ? 'fas fa-bars' : 'fas fa-times'"></i>
+      </button>
+      <span class="h4">Insurance Agency Dashboard</span>
+      <span></span>
+    </nav>
+  </div>
+</div>

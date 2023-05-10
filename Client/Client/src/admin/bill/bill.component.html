@@ -1,0 +1,132 @@
+<div class="container-fluid mt-2">
+    <div class="container">
+        <div class="h4 d-flex justify-content-between">
+            <button type="button" class="genBtn btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" #addBill>
+                <i class="fas fa-plus"></i> Generate a Bill
+            </button>
+            GENERATED BILLS
+            <span></span>
+            <span></span>
+        </div>
+        <hr />
+
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col" width="13%">Reciept No.</th>
+                        <th scope="col" width="20%">Patient ID</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col" width="20%">Status</th>
+                        <th scope="col" width="15%">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="" *ngFor="let b of Bills; let i = index">
+                        <td scope="row">{{ i + 1 }}</td>
+                        <td>
+                            <pre>{{ b.billID }}</pre>
+                        </td>
+                        <td>
+                            {{ b?.patient}} <br />
+<!--                            TODO Patient Name-->
+<!--                            <button class="btn btn-sm btn-primary">View</button>-->
+                        </td>
+                        <td>
+                            <pre>{{ b.amount }}</pre>
+                        </td>
+                        <td>
+                            <pre>{{ b.status }}</pre>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" *ngIf="b.status == Status[1]"
+                                data-bs-toggle="modal" data-bs-target="#modalUp" (click)="onUploadDoc(b)">
+                                Upload Doc
+                            </button>
+
+                            <button type="button" class="btn btn-secondary" *ngIf="b.status != Status[1]" disabled>
+                                NO Action
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Bill Modal -->
+<div class="add-modal">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">GENERATE A BILL</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Company Name"
+                                    name="iName" [(ngModel)]="bill.billID" disabled />
+                                <label for="floatingInput">Reciept Number</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control" id="floatingInput" placeholder="Date"
+                                    name="date" [(ngModel)]="bill.date" />
+                                <label for="floatingInput">Bill Date</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput" placeholder="Patient"
+                                    list="datalistOptions" (change)="onPatientSelected($event)" [value]="" />
+                                <label for="floatingInput">Patient</label>
+                                <datalist id="datalistOptions">
+                                    <option [value]="u.patID" *ngFor="let u of Users">
+                                        {{ u.patName}}
+                                    </option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingInput"
+                                    placeholder="Bill Amount in INR" name="phone" (change)="onAmountChange($event)" />
+                                <label for="floatingInput">Bill Amount in INR</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput"
+                                    placeholder="Bill Amount in ETH" name="email" value="" disabled
+                                    [(ngModel)]="bill.amount" />
+                                <label for="floatingInput">Bill Amount in ETH</label>
+                                <span class="text-danger">*</span>
+                                <span class="note text-muted">
+                                    <small><small> 1 INR = 0.0000080 ETH</small></small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeModal>
+                        Close
+                    </button>
+                    <button type="button" class="btn save" (click)="onGenerateBill()">
+                        Generate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-progress_card *ngIf="prgShow" [success]="prgSuccess" [warn]="prgWarning" [msg_text]="prgMsg"
+    [buttonTxt]="prgBtnText" (btnClick)="onPrgBtnClick()"></app-progress_card>

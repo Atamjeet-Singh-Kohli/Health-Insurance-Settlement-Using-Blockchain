@@ -1,0 +1,159 @@
+<div class="container-fluid">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ Agent?.iName }}</h4>
+                <p class="card-text">{{ Agent?.aID }}</p>
+            </div>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Bill</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                <tr *ngFor="let c of Claims; let i = index">
+                    <td scope="row">{{ i + 1 }}</td>
+                    <td>
+                        <pre>{{ c.pID }}</pre>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning fw-semibold" (click)="viewBill(c)">
+                            View Bill
+                        </button>
+                    </td>
+                    <td>
+                        <pre>{{ c.amount }}</pre>
+                    </td>
+                    <td>
+                        <pre>{{ c.status }}</pre>
+                    </td>
+                    <td width="20%">
+                        <button type="button" class="btn btn-success" *ngIf="c.status == Status[2]"
+                                (click)="payClaim(c)">
+                            <i class="fas fa-wallet"></i> &nbsp;Pay
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#modalClaim"
+                                (click)="selectedClaim = c" *ngIf="c.status == Status[1]" #viewBtn>
+                            <i class="fas fa-file-circle-exclamation"></i>&nbsp; View
+                            Records
+                        </button>
+                        <button type="button" class="btn btn-secondary" disabled *ngIf="
+                  c.status == Status[4] ||
+                  c.status == Status[3]
+                ">
+                            NO ACTION
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<app-progress_card *ngIf="prgShow" [success]="prgSuccess" [warn]="prgWarning" [msg_text]="prgMsg"
+                   [buttonTxt]="prgBtnText" (btnClick)="onPrgBtnClick()"></app-progress_card>
+
+<!-- Med Rec Modal -->
+<div class="modal modal-lg fade" id="modalClaim" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true"
+     #MRmodal>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleId">MEDICAL RECORDS</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModal></button>
+            </div>
+            <div class="modal-body">
+                <div class="records my-3" *ngIf="PatientRecords.length >=1; else noRec">
+                    <table class="table table-hover">
+                        <thead>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>view</th>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let rec of PatientRecords;let i = index">
+                            <td>{{i + 1}}</td>
+                            <td>{{rec.date | date:'short'}}</td>
+                            <td><span class="fs-6 text-secondary">{{rec.doctor}}</span></td>
+                            <td>
+                                <button class="btn btn-success px-2 py-1" (click)="onViewRecord(rec)">
+                                    <i class="fas fa-file-medical"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ng-template #noRec>
+                    No Medical Records
+                </ng-template>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="rejectInsurance()">
+                    Reject
+                </button>
+                <button type="button" class="btn btn-primary" (click)="acceptInsurance()">
+                    Accept Claim
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="billModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bill Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <tbody>
+                    <tr>
+                        <th>Bill Id</th>
+                        <td>{{selectedBill.claim.bID}}</td>
+                    </tr>
+                    <tr>
+                        <th>User Id</th>
+                        <td>{{selectedBill.user?.patID}}</td>
+                    </tr>
+                    <tr>
+                        <th>User Name</th>
+                        <td>{{selectedBill.user?.patName}}</td>
+                    </tr>
+                    <tr>
+                        <th>Bill Amount</th>
+                        <td>{{selectedBill.claim.amount}}</td>
+                    </tr>
+                    <tr>
+                        <th>Bill Status</th>
+                        <td>{{selectedBill.claim.status}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-record *ngIf="viewRecord" [PatientRecord]="PatientRecord" (close)="onRecordClose()"></app-record>

@@ -1,0 +1,86 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="table-responsive mt-3">
+      <table class="table table-hover table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Reciept No</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider" *ngIf="Bills.length>=1">
+          <tr *ngFor="let b of Bills; let i = index">
+            <td scope="row">{{ i + 1 }}</td>
+            <td>
+              <pre>{{ b.billID }}</pre>
+            </td>
+            <td>{{ b.date | date }}</td>
+            <td>
+              <pre>{{ b.amount }}</pre>
+            </td>
+            <td>
+              <pre>{{ b.status }}</pre>
+            </td>
+            <td width="20%">
+              <button type="button" class="btn btn-success"
+                *ngIf="b.status == BillStatus[0] || b.status == BillStatus[3]" (click)="payBill(b)">
+                <i class="fas fa-wallet"></i> &nbsp;Pay
+              </button>
+              &nbsp;&nbsp;
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalClaim"
+                (click)="this.selectedBill = b" *ngIf="b.status == BillStatus[0]">
+                <i class="fas fa-exclamation-circle"></i>&nbsp;Claim
+              </button>
+              <button type="button" class="btn btn-secondary" disabled *ngIf="
+                  b.status == BillStatus[1] ||
+                  b.status == BillStatus[2] ||
+                  b.status == BillStatus[4] ||
+                  b.status == BillStatus[5]
+                ">
+                NO ACTION
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-progress_card *ngIf="prgShow" [success]="prgSuccess" [warn]="prgWarning" [msg_text]="prgMsg"
+  [buttonTxt]="prgBtnText" (btnClick)="onPrgBtnClick()"></app-progress_card>
+
+<!-- Claim Modal -->
+<div class="modal fade" id="modalClaim" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">Submit insurance Claim</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingInput" placeholder="Patient" list="datalistOptions"
+            (change)="onAgentSelected($event)" />
+          <label for="floatingInput">Select Insurance Agency</label>
+          <datalist id="datalistOptions">
+            <option [value]="u.iName" *ngFor="let u of Agents"></option>
+          </datalist>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button #closeModal type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onClaimInsurance()">
+          Submit Claim
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

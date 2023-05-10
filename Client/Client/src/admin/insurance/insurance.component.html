@@ -1,0 +1,98 @@
+<div class="container-fluid mt-2">
+  <div class="container">
+    <div class="h4 d-flex justify-content-between">
+      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <i class="fas fa-plus"></i>
+        Add Insurance Agency
+      </button>
+      INSURANCE AGENCIES
+      <span></span>
+      <span></span>
+    </div>
+    <hr />
+
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="" *ngFor="let a of Agencies; let i = index">
+            <td scope="row">{{ i + 1 }}</td>
+            <td>
+              {{ a.iName }} <br />
+              <span class="id">{{ a.aID }}</span>
+            </td>
+            <td>+91 {{ a.phone }}</td>
+            <td>{{ a.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-progress_card *ngIf="prgShow" [success]="prgSuccess" [warn]="prgWarning" [msg_text]="prgMsg"
+  [buttonTxt]="prgBtnText" (btnClick)="onPrgBtnClick()"></app-progress_card>
+
+<!-- Add Modal -->
+<div class="add-modal">
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            ADD INSURANCE AGENCY
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-2">
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Company Name" name="iName"
+                  [(ngModel)]="Insurance.iName" />
+                <label for="floatingInput">Company Name</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="Account ID" name="aID"
+                  [(ngModel)]="Insurance.aID" />
+                <label for="floatingInput">Account ID</label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-floating mb-3">
+                <input type="tel" class="form-control" id="floatingInput" placeholder="Phone Number" name="phone"
+                  [(ngModel)]="Insurance.phone" />
+                <label for="floatingInput">Phone Number</label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="Email Address" name="email"
+                  [(ngModel)]="Insurance.email" />
+                <label for="floatingInput">Email Address</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeModal>
+            Close
+          </button>
+          <button type="button" class="btn save" (click)="onAddAgency()">
+            Add Agency
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

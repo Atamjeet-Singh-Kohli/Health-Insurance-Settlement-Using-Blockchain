@@ -1,0 +1,8 @@
+<app-progress_card [show]="!isAgent" [success]="prgSuccess" [warn]="prgWarning" [msg_text]="prgMsg"
+  [buttonTxt]="prgBtnText" (btnClick)="onPrgBtnClick()"></app-progress_card>
+<div class="container-fluid" *ngIf="isAgent">
+  <app-sidenav [path]="route"></app-sidenav>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

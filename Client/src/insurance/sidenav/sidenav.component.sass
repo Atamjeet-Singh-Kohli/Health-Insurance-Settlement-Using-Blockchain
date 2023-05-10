@@ -1,0 +1,104 @@
+.side-nav-container
+    width: 100%
+    position: relative
+    z-index: 1
+    .header
+        width: calc( 100% - 200px )
+        top: 25
+        margin-left: 200px
+        position: fixed
+        .navbar
+            align-items: center
+            justify-content: space-between
+            background-color: #fcfcfc
+            height: 50px
+            max-height: 50px
+            padding: 0px
+            .menu
+                border: none
+                color: #0058bd
+                background-color: transparent
+                font-size: 24px
+                padding-left: 15px
+    .header-collapsed
+        width: calc( 100% - 60px )
+        margin-left: 60px
+    .side-nav
+        min-width: 60px
+        max-width: 200px
+        width: 100%
+        height: 100vh
+        background-color: #333
+        position: absolute
+        .logo-container
+            width: 100%
+            height: 100px
+            display: flex
+            justify-content: center
+            align-items: center
+            .icon
+                color: #fc3200
+                font-size: 30px
+        .nav-list-container
+            width: 100%
+            .nav-list
+                list-style: none
+                margin-block: 0px
+                margin-inline-start: 8px
+                margin-inline-end: 8px
+                padding-inline: 0px
+                display: flex
+                align-items: center
+                justify-content: center
+                flex-direction: column
+                .list-item
+                    height: 40px
+                    width: 100%
+                    padding: 8px
+                    padding-left: 15px
+                    border-radius: 8px
+                    font-size: 16px
+                    display: flex
+                    align-items: center
+                    color: #fff
+                    &:hover
+                        box-shadow: #0058bd 0px 7px 29px 0px
+                        background-color: #000000
+                    &.active
+                        background-color: #0058bd
+                        label
+                            color: #ffffff
+                        .icon
+                            color: #ffffff
+                    a
+                        text-decoration: none
+                        color: #fff
+                    label
+                        margin-left: 10px
+                        font-weight: 500
+                        font-size: 16px
+                        color: #A4ACB7
+                    .icon
+                        padding: 2px
+                        color: #A4ACB7
+                        font-size: 18px
+    .side-nav-collapsed
+        max-width: 60px
+        .logo-container
+            height: 50px
+            label
+                display: none
+        .nav-list-container
+            .nav-list
+                .list-item
+                    justify-content: center
+                    padding: 0px
+                    label
+                        display: none
+                    .icon
+                        padding: 2px
+                        color: #fff
+                        font-size: 20px
+
+.hr
+    border-top: 1px solid #0e1925
